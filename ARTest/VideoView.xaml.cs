@@ -71,8 +71,14 @@ namespace ARTest
         {
             var deferral = e.SuspendingOperation.GetDeferral();
             // cleanupCamera
-
+            await cleanupCameraAsync();
             deferral.Complete();
+        }
+
+        protected override async void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            await cleanupCameraAsync();
         }
 
         private async void Application_Resuming(object sender, object o)
@@ -138,6 +144,42 @@ namespace ARTest
             PreviewControl.FlowDirection = _mirroringPreview ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
             await _mediaCapture.StartPreviewAsync();
             _isPreviewing = true;
+        }
+
+        private void AppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            rootFrame.Navigate(typeof(SimpleAR));
+        }
+
+        private async Task cleanupCameraAsync()
+        {
+            if(_isInitialized)
+            {
+                if(_isPreviewing)
+                {
+                    await StopPreviewAsync();
+                }
+                _isInitialized = false;
+            }
+
+            if(_mediaCapture != null)
+            {
+                //_mediaCapture.RecordLimitationExceeded -= MediaCapture_RecordLimitationExceeded; 
+                _mediaCapture.Dispose();
+                _mediaCapture = null;
+            }
+        }
+
+        private async Task StopPreviewAsync()
+        {
+            _isPreviewing = false;
+            await _mediaCapture.StopPreviewAsync();
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                PreviewControl.Source = null;
+                _displayRequest.RequestRelease();
+            });
         }
     }
 }

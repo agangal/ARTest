@@ -7,7 +7,13 @@
     xmlns:Maps="using:Windows.UI.Xaml.Controls.Maps"
     x:Class="ARTest.VideoView"
     mc:Ignorable="d">
-
+    <Page.BottomAppBar>
+        <CommandBar>
+            <CommandBar.PrimaryCommands>
+                <AppBarButton Icon="Next" Click="AppBarButton_Click"></AppBarButton>
+            </CommandBar.PrimaryCommands>
+        </CommandBar>
+    </Page.BottomAppBar>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <!-- Capture preview -->
         <Grid.RowDefinitions>

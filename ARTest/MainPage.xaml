@@ -21,7 +21,8 @@
         <Maps:MapControl x:Name="myMap" Opacity="0.7"
                          PedestrianFeaturesVisible="True"
                          PanInteractionMode="Auto"
-                         LandmarksVisible="True"/>
+                         LandmarksVisible="True"
+                         MapServiceToken="DAPntNl3nFQ77ZnQJ11j~UBZWS5WadayHUSUaVI_iMA~AhwF-6z9Ei6wQHxYd_eXHX4ma_b2FuZvrxgxTQs6gD-1aTmmfOp1T-Z-vghT2RMu"/>
         
     </Grid>
 </Page>
